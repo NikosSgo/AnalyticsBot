@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.gitignore
+*.md
+.env
+.env.*
+db_data/
+test_main.http
+Makefile
