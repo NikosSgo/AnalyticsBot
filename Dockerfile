@@ -33,4 +33,4 @@ RUN chmod +x /app/migrations/create_db.sh
 EXPOSE 8000
 
 # Команда запуска (используем uv run для запуска в виртуальном окружении)
-CMD ["uv", "run", "src/main.py"]
+CMD ["uv", "run", "python", "-m", "src.main"]
