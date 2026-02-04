@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, time
+import re
 from typing import Dict, Any
 from typing import List
 
@@ -63,12 +64,25 @@ def parse_param_value(value: Any) -> Any:
     return value
 
 
+def _max_sql_param_index(sql: str) -> int:
+    matches = re.findall(r"\$(\d+)", sql)
+    if not matches:
+        return 0
+    return max(int(m) for m in matches)
+
+
 def build_sql_and_params(query_name: str, params: Dict[str, Any]) -> tuple[str, List[Any]]:
     query_def = QUERY_DEFINITIONS[query_name]
     sql = query_def["sql"]
     params = normalize_dates(params)
     param_names = list(query_def.get("parameters", {}).keys())
-    param_names = [name for name in param_names if name != "date"]
+    # "date" and "inclusive" are helper params used only for normalization.
+    param_names = [name for name in param_names if name not in {"date", "inclusive"}]
 
     sql_params = [parse_param_value(params.get(name)) for name in param_names]
+    max_param_index = _max_sql_param_index(sql)
+    if max_param_index:
+        sql_params = sql_params[:max_param_index]
+    else:
+        sql_params = []
     return sql, sql_params

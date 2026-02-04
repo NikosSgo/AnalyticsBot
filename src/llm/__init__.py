@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 async def ask_llm(prompt: str, db: "Database"):
-    logger.info(f"LLM запрос: '{prompt[:100]}...'")
+    logger.info(f"LLM запрос: '{prompt}'")
 
     async with AsyncClient(api_key=settings.llm.api_key, base_url=settings.llm.url) as client:
         try:
@@ -54,5 +54,5 @@ async def ask_llm(prompt: str, db: "Database"):
             logger.error(f"Ошибка SQL: {e}")
             return "Ошибка при выполнении запроса к базе данных."
 
-    logger.info(f"LLM текст: '{message.content[:100]}...'")
+    logger.info(f"LLM текст: '{message.content}'")
     return message.content

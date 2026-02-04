@@ -19,11 +19,11 @@ async def llm_handler(message: Message, db):
     user_id = message.from_user.id
     prompt = message.text
 
-    logger.info(f"Запрос аналитики от {user_id}: '{prompt[:50]}...'")
+    logger.info(f"Запрос аналитики от {user_id}: '{prompt}'")
 
     try:
         result = await ask_llm(prompt, db)
-        logger.info(f"Ответ пользователю {user_id}: '{str(result)[:50]}...'")
+        logger.info(f"Ответ пользователю {user_id}: '{str(result)}'")
         await message.answer(str(result))
     except Exception as e:
         logger.error(f"Ошибка обработки запроса {user_id}: {e}")

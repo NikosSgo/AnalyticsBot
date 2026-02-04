@@ -8,3 +8,4 @@ db_data/
 *.pyo
 *.pyd
 __pycache__/
+logs/
